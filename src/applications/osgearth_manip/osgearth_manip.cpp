@@ -65,8 +65,7 @@ namespace
             "u :",                 "toggle azimuth lock",
             "c :",                 "toggle perspective/ortho",
             "t :",                 "toggle tethering",
-            "a :",                 "toggle viewpoint arcing",
-            "z :",                 "toggle throwing"
+            "a :",                 "toggle viewpoint arcing"
         };
 
         Grid* g = new Grid();
@@ -220,39 +219,6 @@ namespace
 
 
     /**
-     * Toggles the throwing feature.
-     */
-    struct ToggleThrowingHandler : public osgGA::GUIEventHandler
-    {
-        ToggleThrowingHandler(char key, EarthManipulator* manip)
-            : _key(key), _manip(manip)
-        {
-        }
-
-        bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
-        {
-            if (ea.getEventType() == ea.KEYDOWN && ea.getKey() == _key)
-            {
-                bool throwing = _manip->getSettings()->getThrowingEnabled();
-                _manip->getSettings()->setThrowingEnabled( !throwing );
-                aa.requestRedraw();
-                return true;
-            }
-            return false;
-        }
-
-        void getUsage(osg::ApplicationUsage& usage) const
-        {
-            using namespace std;
-            usage.addKeyboardMouseBinding(string(1, _key), string("Toggle throwing"));
-        }
-
-        char _key;
-        osg::ref_ptr<EarthManipulator> _manip;
-    };
-
-
-    /**
      * A simple simulator that moves an object around the Earth. We use this to
      * demonstrate/test tethering.
      */
@@ -363,7 +329,6 @@ int main(int argc, char** argv)
     viewer.addEventHandler(new LockAzimuthHandler('u', manip));
     viewer.addEventHandler(new ToggleProjectionHandler('c', manip));
     viewer.addEventHandler(new ToggleArcViewpointTransitionsHandler('a', manip));
-    viewer.addEventHandler(new ToggleThrowingHandler('z', manip));
 
     return viewer.run();
 }
